@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<!-- BASE !-->
+	<title>{{ info.meta_title }}</title>
+    <meta name="description" content="{{ info.meta_description }}">
+    <meta name="keywords" content="{{ info.meta_keywords }}">
+    <meta name="author" content="{{ info.meta_author }}">
+    <link rel="stylesheet" href="/css/{{ info.theme }}/style.css" type="text/css" />
+</head>
+<body>
+<header>
+	<div class="top">
+		{{ markdocs.ignore|raw }}
+			<i class="icon-download-alt icon-white"></i> <a href="/download">download</a>
+		{{ markdocs.endignore|raw }}
+	</div>
+</header>
+<div>
+	<div id="left">
+		
+		<a href="/"><img src="/img/logo.png" /></a>
+
+		<div class="row">
+			<form action="http://www.google.com/search" method="get" style="margin:10px 20px 0;" enctype="multipart/form-data">
+				<div class="input-append">
+				  	<input type="hidden" name="as_sitesearch" id="as_sitesearch" value="{{ http_host }}" />
+					<input class="span2" style="margin-left:20px;" name="q" id="appendedInputButton" type="text">
+				 	<button class="btn" type="button">Search</button>
+				</div>
+			</form>
+		</div>
+		
+		{{ nav|raw }}
+		
+		<div class="clearfix"></div>
+	</div>
+	<div id="right">
+		
+		{{ breadcrumb|raw }}
+		
+		<div style="padding:0 15px;">
+			{{ content|raw }}
+			
+			{% if info.disqus is defined %}	
+				{{ markdocs.ignore|raw }}
+					<div class="disqus">
+						<h2>Comments</h2>
+						<div id="disqus_thread"></div>
+						<script type="text/javascript">
+						    
+						    var disqus_shortname = '{{ info.disqus }}'; // required: replace example with your forum shortname
+							(function() {
+						        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+						        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+						        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+						    })();
+						</script>
+					</div>
+				{{ markdocs.endignore|raw }}
+			{% endif %}
+		
+		</div>
+
+		<div class="footer">
+			<hr />
+			&copy;{{ "now"|date("Y") }} <a href="info.domain">{{ info.company }}</a> 
+			| 
+			powered by <a href="http://markdocs.com">markdocs.com</a>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript">
+		/* ---------------------------------------------------- */
+		/*	UItoTop (Back to Top)
+		/* ---------------------------------------------------- */
+	
+		$(function() {
+	
+			var settings = {
+					button      : '#back-to-top',
+					text        : 'Back to Top',
+					min         : 200,
+					fadeIn      : 400,
+					fadeOut     : 400,
+					scrollSpeed : 800,
+					easingType  : 'easeInOutExpo'
+				},
+				oldiOS     = false,
+				oldAndroid = false;
+	
+			// Detect if older iOS device, which doesn't support fixed position
+			if( /(iPhone|iPod|iPad)\sOS\s[0-4][_\d]+/i.test(navigator.userAgent) )
+				oldiOS = true;
+	
+			// Detect if older Android device, which doesn't support fixed position
+			if( /Android\s+([0-2][\.\d]+)/i.test(navigator.userAgent) )
+				oldAndroid = true;
+				
+			$('#right').append('<a href="#" id="' + settings.button.substring(1) + '" title="' + settings.text + '"><i class="icon icon-chevron-up"></i></a>');
+			
+			$( settings.button ).click(function( e ){
+					$('html, body').animate({ scrollTop : 0 }, settings.scrollSpeed);
+					e.preventDefault();
+				});
+	
+			$(window).scroll(function() {
+				var position = $(window).scrollTop();
+	
+				if( oldiOS || oldAndroid ) {
+					$( settings.button ).css({
+						'position' : 'absolute',
+						'top'      : position + $(window).height()
+					});
+				}	
+				$('#scroll').val(position);
+				
+				if ( position > settings.min ) 
+					$( settings.button ).fadeIn( settings.fadeIn );
+				else 
+					$( settings.button ).fadeOut( settings.fadeOut );
+			});
+	
+		});
+	
+		/* end UItoTop (Back to Top) */
+	</script>
+	
+	{% if info.google_analytics is defined %}	
+		{{ markdocs.ignore|raw }}
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', '{{ info.google_analytics }}']);
+		  _gaq.push(['_trackPageview']);
+		
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+		{{ markdocs.endignore|raw }}
+	{% endif %}
+	
+	{{ nav_js|raw }}
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+.DS_Store
+content/brilliantretail
+content/sherpa
+application/cache/*
+content/*
+builds
+system/cache/*
+public_html/assets/*
+
+### Keepers ###
+!content/default/*
+!system/cache/index.html
+!public_html/assets/index.html
+!application/builds/.htaccess
